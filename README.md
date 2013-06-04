@@ -14,3 +14,9 @@ Todo
 - document code and config
 - add onDisable to reset stuff if necessary
 - move to maven
+
+Bugs
+-----------------------------------------
+
+- when jetpack is enchanted the name begins with an unrecognized char
+- when using shift-click to craft multiple jetpacks at once, only one is crafted until you click an ingredient, then the rest are crafted

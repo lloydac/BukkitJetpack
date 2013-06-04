@@ -8,6 +8,7 @@ import java.util.logging.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.configuration.*;
+import org.bukkit.enchantments.*;
 
 public class Jetpack extends JavaPlugin {
     
@@ -16,6 +17,7 @@ public class Jetpack extends JavaPlugin {
     private long CHECK_FREQUENCY = 10L; // in ticks; 20 ticks = 1 second
     
     private double damagePerTick = 0.05;
+    private Random rng = new Random();
     
     private void addJetpackType(Material armor, Material ingredient, String materialName){
         ItemStack jetpack = new ItemStack(armor);
@@ -31,7 +33,20 @@ public class Jetpack extends JavaPlugin {
     }
     
     private boolean isJetpack(ItemStack i){
-        return i.getItemMeta().getDisplayName().endsWith("Jetpack");
+        ItemMeta m = i.getItemMeta();
+        if (m == null) return false;
+        String name = m.getDisplayName();
+        if (name == null) return false;
+        return name.endsWith("Jetpack");
+    }
+    
+    private boolean shouldDoDamage(ItemStack jetpack){
+        if (!jetpack.containsEnchantment(Enchantment.DURABILITY))
+            return true;
+        
+        int level = jetpack.getEnchantmentLevel(Enchantment.DURABILITY);
+        int probability = 60 + 40/(level+1);
+        return rng.nextInt(100) < probability;
     }
     
     public void onEnable(){
@@ -61,10 +76,11 @@ public class Jetpack extends JavaPlugin {
                         hasJetpack.add(p);
                         p.setAllowFlight(true);
                         
-                        if (p.isFlying() && p.getGameMode() != GameMode.CREATIVE){
+                        if (p.isFlying() && shouldDoDamage(chestplate) && p.getGameMode() != GameMode.CREATIVE){
                             double damage = damagePerTick * CHECK_FREQUENCY;
                             if (damageOverflow.containsKey(chestplate))
                                 damage += damageOverflow.get(chestplate);
+                            
                             
                             short prevDura = chestplate.getDurability();
                             short dura = (short) (prevDura + Math.floor(damage));
