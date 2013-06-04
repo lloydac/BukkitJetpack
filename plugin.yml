@@ -1,0 +1,7 @@
+name: Jetpack
+main: jetpack.Jetpack
+version: 0.1
+permissions:
+    jetpack.use:
+        description: Allows use of the jetpack
+        default: true

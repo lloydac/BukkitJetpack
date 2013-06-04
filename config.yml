@@ -1,0 +1,12 @@
+# list of materials the jetpack
+# is allowed to be constructed from
+allow-types:
+- leather
+- diamond
+- iron
+- chainmail
+- gold
+# amount of damage (durability)
+# done to the jetpack per tick.
+# remember; 20 ticks = 1 second
+damage-per-tick: 0.05

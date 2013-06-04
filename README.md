@@ -1,0 +1,10 @@
+- add a fuel requirement, probably coal
+- have lore show amount of fuel
+- account for "unbreaking" enchantment
+- make warning time configurable
+- output default config
+- document code and config
+- add permission support
+- add onDisable to reset shit or whatever
+- move to maven
+- put on GitHub
